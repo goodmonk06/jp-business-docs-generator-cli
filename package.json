@@ -19,7 +19,13 @@
     "format:check": "prettier --check \"src/**/*.ts\"",
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist",
-    "demo": "ts-node scripts/demo.ts"
+    "demo": "ts-node scripts/demo.ts",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "ts-node prisma/seed.ts",
+    "db:studio": "prisma studio",
+    "db:reset": "prisma migrate reset --force"
   },
   "keywords": [
     "cli",
@@ -36,10 +42,17 @@
     "yaml": "^2.3.4",
     "chalk": "^4.1.2",
     "zod": "^3.22.4",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "@prisma/client": "^5.7.1",
+    "inquirer": "^8.2.6",
+    "csv-parse": "^5.5.3",
+    "date-fns": "^3.0.6",
+    "nanoid": "^3.3.7",
+    "winston": "^3.11.0"
   },
   "devDependencies": {
     "@types/node": "^20.10.4",
+    "@types/inquirer": "^9.0.7",
     "@typescript-eslint/eslint-plugin": "^6.15.0",
     "@typescript-eslint/parser": "^6.15.0",
     "@vitest/coverage-v8": "^1.0.4",
@@ -47,8 +60,12 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.0.1",
     "prettier": "^3.1.1",
+    "prisma": "^5.7.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
     "vitest": "^1.0.4"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }

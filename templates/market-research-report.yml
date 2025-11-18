@@ -1,0 +1,34 @@
+name: 市場調査報告書
+purpose: 市場動向、競合分析、顧客ニーズなどを調査し、ビジネス判断の材料となる報告書を作成する
+audience: 経営層、マーケティング部門、事業企画部門
+required_sections:
+  - エグゼクティブサマリー
+  - 調査概要
+  - 市場規模と成長性
+  - 市場トレンド
+  - 顧客セグメント分析
+  - 競合分析
+  - SWOT分析
+  - 機会とリスク
+  - 推奨アクション
+tone: 客観的でデータドリブンな表現。明確な洞察と提言を示す。
+parameters:
+  - name: market
+    description: 対象市場
+    required: true
+  - name: research_period
+    description: 調査期間
+    required: true
+  - name: key_findings
+    description: 主要な発見事項
+    required: true
+  - name: market_size
+    description: 市場規模
+    required: false
+  - name: growth_rate
+    description: 成長率
+    required: false
+additional_instructions: |
+  データと統計を積極的に活用すること
+  客観的な分析に基づいた洞察を示すこと
+  実行可能なアクションプランを提示すること

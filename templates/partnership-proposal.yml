@@ -1,0 +1,33 @@
+name: 業務提携提案書
+purpose: 他社に対して業務提携やアライアンスを提案するための資料
+audience: 提携候補先企業の経営層、事業開発担当者
+required_sections:
+  - 提携の背景
+  - 両社の強み・シナジー
+  - 提携の目的とメリット
+  - 具体的な提携内容
+  - 想定スキーム
+  - 期待される成果
+  - スケジュール
+  - 次のステップ
+tone: プロフェッショナルで誠実な表現。Win-Winの関係性を強調する。
+parameters:
+  - name: company
+    description: 提案元企業名
+    required: true
+  - name: partner_company
+    description: 提携候補先企業名
+    required: true
+  - name: partnership_type
+    description: 提携の種類（業務提携、資本提携、技術提携など）
+    required: true
+  - name: key_benefits
+    description: 主要なメリット
+    required: true
+  - name: industry
+    description: 業界・分野
+    required: false
+additional_instructions: |
+  双方にとってのメリットを明確にすること
+  具体的な協業内容とスケジュールを示すこと
+  相手企業への敬意を持った表現を心がけること

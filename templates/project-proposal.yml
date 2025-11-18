@@ -1,0 +1,38 @@
+name: プロジェクト提案書
+purpose: 社内外のステークホルダーに対して、新規プロジェクトの承認と予算を得るための提案書
+audience: 経営層、プロジェクトオーナー、意思決定者
+required_sections:
+  - プロジェクト概要
+  - 背景と課題
+  - プロジェクトの目的・目標
+  - スコープ
+  - 実施方針・アプローチ
+  - スケジュール
+  - 必要リソース
+  - 予算
+  - リスクと対策
+  - 期待される成果・効果
+tone: ロジカルで説得力のある表現。データに基づき、明確な結論を示す。
+parameters:
+  - name: project_name
+    description: プロジェクト名
+    required: true
+  - name: department
+    description: 提案部署
+    required: true
+  - name: objective
+    description: プロジェクトの目的
+    required: true
+  - name: budget
+    description: 予算（円）
+    required: true
+  - name: duration
+    description: 実施期間
+    required: true
+  - name: team_size
+    description: 必要人員数
+    required: false
+additional_instructions: |
+  プロジェクトの必要性と実現可能性を明確に示すこと
+  投資対効果（ROI）を具体的に示すこと
+  リスクに対する対策を明記すること

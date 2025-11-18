@@ -1,0 +1,32 @@
+name: 秘密保持契約書（NDA）
+purpose: 事業上の機密情報を第三者に開示する際に、情報の保護を約束する契約書
+audience: 情報開示先企業、法務担当者
+required_sections:
+  - 契約の目的
+  - 定義（秘密情報の範囲）
+  - 秘密保持義務
+  - 秘密情報の利用目的
+  - 開示の制限
+  - 秘密情報の返還・破棄
+  - 契約期間
+  - 損害賠償
+  - 準拠法・管轄裁判所
+tone: 法的に正確で厳格な表現。曖昧さを排除し、権利義務を明確にする。
+parameters:
+  - name: disclosing_party
+    description: 開示者（情報を提供する側）
+    required: true
+  - name: receiving_party
+    description: 受領者（情報を受け取る側）
+    required: true
+  - name: purpose
+    description: 情報開示の目的
+    required: true
+  - name: contract_period
+    description: 契約期間
+    required: true
+    default: "契約締結日から2年間"
+additional_instructions: |
+  秘密情報の範囲を明確に定義すること
+  義務違反時の措置を明記すること
+  法的に有効な契約となるよう、正確な表現を使用すること
