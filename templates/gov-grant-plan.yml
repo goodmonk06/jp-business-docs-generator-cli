@@ -1,0 +1,43 @@
+name: 補助金申請事業計画書
+purpose: 政府・自治体の補助金や助成金を申請するための事業計画書を作成する
+audience: 補助金審査委員、行政担当者
+required_sections:
+  - 事業の背景と目的
+  - 事業内容
+  - 事業の必要性
+  - 期待される効果
+  - 実施体制
+  - スケジュール
+  - 予算計画
+  - 事業完了後の展開
+tone: 公的文書として適切な表現。社会的意義や公益性を強調し、客観的なデータを重視する。
+parameters:
+  - name: company
+    description: 事業者名（企業名・団体名）
+    required: true
+  - name: project_name
+    description: 事業名
+    required: true
+  - name: grant_type
+    description: 補助金の種類
+    required: true
+    default: ものづくり補助金
+  - name: budget
+    description: 総事業費（円）
+    required: true
+  - name: grant_amount
+    description: 補助金申請額（円）
+    required: true
+  - name: period
+    description: 事業実施期間
+    required: true
+    default: 12ヶ月
+  - name: industry
+    description: 業種
+    required: false
+additional_instructions: |
+  - 補助金の目的に沿った内容であることを明確にすること
+  - 事業の革新性や独自性を具体的に説明すること
+  - 地域や社会への貢献を明示すること
+  - 実現可能性が高いことを示す根拠を提示すること
+  - 費用対効果を明確にすること

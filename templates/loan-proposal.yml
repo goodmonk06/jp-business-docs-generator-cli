@@ -1,0 +1,41 @@
+name: 銀行融資提案書
+purpose: 銀行や金融機関に対して、事業資金の融資を依頼するための提案書を作成する
+audience: 銀行の融資担当者、審査部門
+required_sections:
+  - 企業概要
+  - 融資の目的
+  - 資金使途
+  - 返済計画
+  - 事業の強み・実績
+  - 市場分析
+  - 収支見込み
+  - 担保・保証について
+tone: 丁寧かつフォーマルな口調。数値データを明確に示し、信頼性を重視する。
+parameters:
+  - name: company
+    description: 会社名
+    required: true
+  - name: amount
+    description: 融資希望額（円）
+    required: true
+  - name: purpose
+    description: 融資の目的
+    required: true
+    default: 運転資金
+  - name: business_type
+    description: 事業内容
+    required: true
+  - name: revenue
+    description: 年間売上高（円）
+    required: false
+  - name: employees
+    description: 従業員数
+    required: false
+  - name: years
+    description: 創業年数
+    required: false
+additional_instructions: |
+  - 融資審査に必要な情報を漏れなく記載すること
+  - 返済の確実性を示す根拠を明確にすること
+  - 具体的な数値を用いて説得力を持たせること
+  - 事業の将来性と成長性をアピールすること

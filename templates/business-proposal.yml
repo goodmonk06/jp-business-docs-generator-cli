@@ -1,0 +1,35 @@
+name: 事業提案書
+purpose: 社内外の関係者に対して、新規事業やプロジェクトを提案するための資料を作成する
+audience: 経営陣、投資家、取引先企業
+required_sections:
+  - エグゼクティブサマリー
+  - 市場機会
+  - 提案する事業内容
+  - ビジネスモデル
+  - 競合分析
+  - 実施計画
+  - 収支予測
+  - リスクと対策
+tone: ビジネスライクで説得力のある表現。データドリブンな内容とストーリー性を両立させる。
+parameters:
+  - name: company
+    description: 提案企業名
+    required: true
+  - name: project_name
+    description: 事業名・プロジェクト名
+    required: true
+  - name: target_market
+    description: ターゲット市場
+    required: true
+  - name: investment
+    description: 必要投資額（円）
+    required: false
+  - name: roi_period
+    description: 投資回収期間
+    required: false
+    default: 3年
+additional_instructions: |
+  - 提案の価値を明確に示すこと
+  - 市場データや統計を活用すること
+  - 実現可能性を具体的に説明すること
+  - 期待されるリターンを数値で示すこと

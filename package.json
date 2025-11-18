@@ -1,0 +1,35 @@
+{
+  "name": "jp-business-docs-generator-cli",
+  "version": "1.0.0",
+  "description": "企画書・事業計画・銀行提出資料など日本語ビジネス文書をテンプレートから生成するCLIツール",
+  "main": "dist/cli.js",
+  "bin": {
+    "bizdoc": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/cli.ts",
+    "start": "node dist/cli.js",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "cli",
+    "business-documents",
+    "japanese",
+    "llm",
+    "openai"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^11.1.0",
+    "openai": "^4.20.1",
+    "yaml": "^2.3.4",
+    "chalk": "^4.1.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
