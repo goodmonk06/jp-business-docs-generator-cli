@@ -1,0 +1,14 @@
+node_modules
+dist
+coverage
+output
+.git
+.gitignore
+.env
+.env.example
+*.md
+!README.md
+.eslintrc.json
+.prettierrc
+.prettierignore
+vitest.config.ts

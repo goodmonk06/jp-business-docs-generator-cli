@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  bizdoc:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: jp-business-docs-generator-cli:latest
+    container_name: bizdoc-cli
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - ./output:/app/output
+      - ./templates:/app/templates:ro
+    command: list
+    profiles:
+      - manual
+
+  # Example service for generating a loan proposal
+  generate-loan-proposal:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: jp-business-docs-generator-cli:latest
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - ./output:/app/output
+      - ./templates:/app/templates:ro
+    command: >
+      generate loan-proposal
+      --company "サンプル株式会社"
+      --amount 10000000
+      --purpose "新規事業資金"
+      --business_type "ソフトウェア開発"
+      --output /app/output/loan-proposal-sample.md
+    profiles:
+      - demo

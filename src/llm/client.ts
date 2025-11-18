@@ -1,5 +1,9 @@
 import OpenAI from 'openai';
+import dotenv from 'dotenv';
 import { DocumentTemplate } from '../templates/types';
+
+// Load environment variables
+dotenv.config();
 
 /**
  * LLMクライアント（OpenAI）
@@ -34,15 +38,16 @@ export class LLMClient {
         messages: [
           {
             role: 'system',
-            content: 'あなたは日本のビジネス文書作成の専門家です。与えられたテンプレートと情報を基に、プロフェッショナルなビジネス文書を作成してください。'
+            content:
+              'あなたは日本のビジネス文書作成の専門家です。与えられたテンプレートと情報を基に、プロフェッショナルなビジネス文書を作成してください。',
           },
           {
             role: 'user',
-            content: prompt
-          }
+            content: prompt,
+          },
         ],
         temperature: 0.7,
-        max_tokens: 4000
+        max_tokens: 4000,
       });
 
       const content = response.choices[0]?.message?.content;
@@ -82,7 +87,7 @@ export class LLMClient {
       '## 口調・スタイル',
       template.tone,
       '',
-      '## 入力情報'
+      '## 入力情報',
     ];
 
     // パラメータを追加

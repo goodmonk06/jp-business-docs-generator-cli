@@ -4,82 +4,185 @@
 
 OpenAI APIを利用し、YAMLで定義されたテンプレートに基づいて高品質な日本語ビジネス文書を自動生成します。
 
-## 特徴
+## Overview
 
+jp-business-docs-generator-cliは、ビジネス文書作成のプロセスを自動化・効率化するためのコマンドラインツールです。
+
+**主な用途:**
+- 銀行融資提案書の作成
+- 補助金・助成金申請書の作成
+- 新規事業提案書の作成
+- その他、カスタムビジネス文書の生成
+
+**特徴:**
 - 📝 複数のビジネス文書テンプレート（融資提案書、補助金申請書、事業提案書など）
-- 🤖 OpenAI GPTによる高品質な文書生成
-- ⚙️ YAMLベースのカスタマイズ可能なテンプレート
-- 💻 シンプルなCLIインターフェース
+- 🤖 OpenAI GPT-4o-miniによる高品質な文書生成
+- ⚙️ YAMLベースのカスタマイズ可能なテンプレートシステム
+- 💻 シンプルで使いやすいCLIインターフェース
 - 🎨 Markdown形式での出力
+- ✅ zodによる堅牢なバリデーション
+- 🧪 包括的なテストスイート（Vitest）
+- 🐳 Docker対応
 
 ## Tech Stack
 
-- Node.js + TypeScript
-- OpenAI API (GPT-4o-mini)
-- Commander.js (CLI framework)
-- YAML (テンプレート管理)
-- Chalk (コンソール装飾)
+### Core
+- **Runtime:** Node.js 20+
+- **Language:** TypeScript 5.3+
+- **CLI Framework:** Commander.js 11.x
+- **LLM:** OpenAI API (GPT-4o-mini)
 
-## インストール
+### Libraries
+- **Validation:** zod 3.x
+- **YAML Parser:** yaml 2.x
+- **Console Styling:** chalk 4.x
+- **Environment:** dotenv 16.x
+
+### Development
+- **Test Framework:** Vitest 1.x
+- **Linter:** ESLint 8.x
+- **Formatter:** Prettier 3.x
+- **Type Checking:** TypeScript Compiler
+
+## Domain Model Summary
+
+このCLIツールは、以下の主要エンティティで構成されています：
+
+```
+DocumentTemplate (テンプレート)
+├─ name: string              # テンプレート名
+├─ purpose: string           # 文書の目的
+├─ audience: string          # 想定読者
+├─ required_sections: []     # 必須セクション
+├─ tone: string              # 口調・スタイル
+├─ parameters: []            # パラメータ定義
+└─ additional_instructions   # 追加の指示
+
+ParameterDefinition (パラメータ定義)
+├─ name: string              # パラメータ名
+├─ description: string       # 説明
+├─ required: boolean         # 必須フラグ
+└─ default?: string|number   # デフォルト値
+
+GenerationRequest (生成リクエスト)
+├─ templateName: string      # 使用するテンプレート
+└─ parameters: Record        # パラメータ値
+```
+
+### 処理フロー
+
+```
+1. Template Load → 2. Validation → 3. Prompt Build → 4. LLM Generation → 5. Output
+```
+
+## Getting Started
+
+### Requirements
+
+- **Node.js:** 20.x 以上
+- **npm:** 10.x 以上
+- **OpenAI API Key:** GPT-4o-mini へのアクセス権
+
+### Setup Steps
+
+#### 1. リポジトリのクローン
 
 ```bash
-# リポジトリのクローン
 git clone https://github.com/yourusername/jp-business-docs-generator-cli.git
 cd jp-business-docs-generator-cli
+```
 
-# 依存関係のインストール
+#### 2. 依存関係のインストール
+
+```bash
 npm install
-
-# ビルド
-npm run build
 ```
 
-## 環境設定
-
-### OpenAI APIキーの設定
-
-OpenAI APIキーが必要です。以下のいずれかの方法で設定してください：
-
-**方法1: 環境変数として設定**
+#### 3. 環境変数の設定
 
 ```bash
-export OPENAI_API_KEY="your_api_key_here"
-```
-
-**方法2: .envファイルを作成**
-
-```bash
+# .env.example をコピー
 cp .env.example .env
-# .envファイルを編集してAPIキーを設定
-```
 
-```
-OPENAI_API_KEY=your_api_key_here
+# .envファイルを編集してAPIキーを設定
+# OPENAI_API_KEY=your_openai_api_key_here
 ```
 
 > OpenAI APIキーは [https://platform.openai.com/api-keys](https://platform.openai.com/api-keys) から取得できます。
 
-## 使い方
-
-### 基本コマンド
+#### 4. ビルド
 
 ```bash
-# 利用可能なテンプレート一覧を表示
-npm run dev list
-
-# テンプレートの詳細情報を表示
-npm run dev info loan-proposal
-
-# 文書を生成
-npm run dev generate <template-name> [options]
+npm run build
 ```
 
-### 実行例
-
-#### 1. 銀行融資提案書の生成
+#### 5. 動作確認
 
 ```bash
-npm run dev generate loan-proposal \
+# テンプレート一覧表示
+npm run dev list
+
+# デモを実行
+npm run demo
+```
+
+### Docker を使用する場合
+
+```bash
+# イメージをビルド
+docker build -t bizdoc-cli .
+
+# テンプレート一覧を表示
+docker run --rm bizdoc-cli list
+
+# 環境変数でAPIキーを渡して文書を生成
+docker run --rm \
+  -e OPENAI_API_KEY=your_key \
+  -v $(pwd)/output:/app/output \
+  bizdoc-cli generate loan-proposal \
+    --company "サンプル株式会社" \
+    --amount 10000000 \
+    --purpose "運転資金" \
+    --business_type "IT" \
+    --output /app/output/proposal.md
+```
+
+## Example Flow
+
+### 垂直スライス: 融資提案書の生成
+
+完全なエンドツーエンドフローの例を示します。
+
+#### ステップ 1: テンプレートの確認
+
+```bash
+$ npm run dev info loan-proposal
+
+📄 テンプレート: 銀行融資提案書
+
+目的: 銀行や金融機関に対して、事業資金の融資を依頼するための提案書を作成する
+想定読者: 銀行の融資担当者、審査部門
+口調: 丁寧かつフォーマルな口調。数値データを明確に示し、信頼性を重視する。
+
+必須セクション:
+  • 企業概要
+  • 融資の目的
+  • 資金使途
+  • 返済計画
+  ...
+
+パラメータ:
+  --company *必須
+    会社名
+  --amount *必須
+    融資希望額（円）
+  ...
+```
+
+#### ステップ 2: パラメータを指定して生成
+
+```bash
+$ npm run dev generate loan-proposal \
   --company "合同会社価作" \
   --amount 8000000 \
   --purpose "新規事業立ち上げ資金" \
@@ -87,49 +190,92 @@ npm run dev generate loan-proposal \
   --revenue 50000000 \
   --employees 5 \
   --years 3
+
+📄 テンプレート "loan-proposal" を読み込み中...
+✓ テンプレート読み込み完了
+
+🤖 文書を生成中...
+✓ 文書生成完了
+
+✓ 文書を保存しました: /home/user/jp-business-docs-generator-cli/output/loan-proposal_1700123456789.md
 ```
 
-#### 2. 補助金申請事業計画書の生成
+#### ステップ 3: 生成された文書の確認
 
 ```bash
-npm run dev generate gov-grant-plan \
-  --company "株式会社イノベーション" \
-  --project_name "AI活用による業務効率化システム開発" \
-  --grant_type "ものづくり補助金" \
-  --budget 10000000 \
-  --grant_amount 6000000 \
-  --period "12ヶ月" \
-  --industry "情報通信業"
+$ cat output/loan-proposal_*.md
+
+# 銀行融資提案書
+
+**提出日:** 2024年11月18日
+**申請企業:** 合同会社価作
+
+## 企業概要
+...
 ```
 
-#### 3. 事業提案書の生成
+完全なサンプル出力は [`examples/loan-proposal-sample.md`](examples/loan-proposal-sample.md) をご覧ください。
+
+## Available Scripts
 
 ```bash
-npm run dev generate business-proposal \
-  --company "株式会社スタートアップ" \
-  --project_name "次世代ECプラットフォーム構築" \
-  --target_market "中小企業向けEC市場" \
-  --investment 30000000 \
-  --roi_period "2年"
+# 開発
+npm run dev [command]        # TypeScriptを直接実行
+npm run demo                 # デモスクリプトを実行
+
+# ビルド
+npm run build                # TypeScriptをコンパイル
+npm start [command]          # ビルド済みコードを実行
+npm run clean                # ビルド成果物を削除
+
+# テスト
+npm test                     # テストを実行
+npm run test:watch           # ウォッチモードでテスト
+npm run test:coverage        # カバレッジレポート生成
+
+# コード品質
+npm run lint                 # ESLintでコードチェック
+npm run lint:fix             # ESLintで自動修正
+npm run format               # Prettierでフォーマット
+npm run format:check         # フォーマットチェック
+npm run typecheck            # 型チェック（ビルドなし）
 ```
 
-#### 4. 出力先を指定
+## Commands
+
+### list
+
+利用可能なテンプレート一覧を表示
 
 ```bash
-npm run dev generate loan-proposal \
-  --company "合同会社価作" \
-  --amount 8000000 \
-  --purpose "運転資金" \
-  --business_type "コンサルティング" \
-  --output "./my-proposal.md"
+npm run dev list
 ```
 
-### オプション
+### info <template>
 
-- `-o, --output <path>`: 出力ファイルパスを指定（デフォルト: `output/<template>_<timestamp>.md`）
-- `-m, --model <model>`: OpenAIモデルを指定（デフォルト: `gpt-4o-mini`）
+指定したテンプレートの詳細情報を表示
 
-## 利用可能なテンプレート
+```bash
+npm run dev info loan-proposal
+```
+
+### generate <template> [options]
+
+テンプレートから文書を生成
+
+```bash
+npm run dev generate <template-name> \
+  --param1 value1 \
+  --param2 value2 \
+  [--output <path>] \
+  [--model <model-name>]
+```
+
+**共通オプション:**
+- `-o, --output <path>`: 出力ファイルパス（デフォルト: `output/<template>_<timestamp>.md`）
+- `-m, --model <model>`: OpenAIモデル（デフォルト: `gpt-4o-mini`）
+
+## Available Templates
 
 ### 1. loan-proposal（銀行融資提案書）
 
@@ -158,9 +304,6 @@ npm run dev generate loan-proposal \
 - `--grant_amount`: 補助金申請額（円）
 - `--period`: 事業実施期間
 
-**任意パラメータ:**
-- `--industry`: 業種
-
 ### 3. business-proposal（事業提案書）
 
 新規事業やプロジェクトの社内外への提案資料。
@@ -170,11 +313,7 @@ npm run dev generate loan-proposal \
 - `--project_name`: 事業名・プロジェクト名
 - `--target_market`: ターゲット市場
 
-**任意パラメータ:**
-- `--investment`: 必要投資額（円）
-- `--roi_period`: 投資回収期間
-
-## カスタムテンプレートの作成
+## Custom Templates
 
 `templates/` ディレクトリにYAMLファイルを追加することで、独自のテンプレートを作成できます。
 
@@ -200,43 +339,57 @@ additional_instructions: |
   追加の指示
 ```
 
-## ディレクトリ構成
+## Testing
+
+```bash
+# 全テストを実行
+npm test
+
+# ウォッチモードで実行
+npm run test:watch
+
+# カバレッジレポートを生成
+npm run test:coverage
+```
+
+**テストの構成:**
+- `src/templates/__tests__/`: テンプレートローダーとスキーマのテスト
+- `src/llm/__tests__/`: LLMクライアントのテスト
+
+## Directory Structure
 
 ```
 .
 ├── src/
-│   ├── cli.ts              # CLIエントリーポイント
+│   ├── cli.ts                          # CLIエントリーポイント
 │   ├── templates/
-│   │   ├── types.ts        # テンプレート型定義
-│   │   └── loader.ts       # テンプレートローダー
+│   │   ├── types.ts                    # テンプレート型定義とzodスキーマ
+│   │   ├── loader.ts                   # テンプレートローダー
+│   │   └── __tests__/                  # テンプレート関連のテスト
 │   └── llm/
-│       └── client.ts       # OpenAI LLMクライアント
+│       ├── client.ts                   # OpenAI LLMクライアント
+│       └── __tests__/                  # LLM関連のテスト
 ├── templates/
-│   ├── loan-proposal.yml   # 融資提案書テンプレート
-│   ├── gov-grant-plan.yml  # 補助金申請書テンプレート
-│   └── business-proposal.yml # 事業提案書テンプレート
-├── output/                  # 生成された文書の出力先
+│   ├── loan-proposal.yml               # 融資提案書テンプレート
+│   ├── gov-grant-plan.yml              # 補助金申請書テンプレート
+│   └── business-proposal.yml           # 事業提案書テンプレート
+├── examples/
+│   ├── loan-proposal-sample.md         # サンプル出力
+│   └── README.md                       # サンプルの説明
+├── scripts/
+│   └── demo.ts                         # デモスクリプト
+├── output/                             # 生成された文書の出力先
+├── dist/                               # ビルド成果物
+├── Dockerfile                          # Docker設定
+├── docker-compose.yml                  # Docker Compose設定
+├── vitest.config.ts                    # テスト設定
+├── .eslintrc.json                      # ESLint設定
+├── .prettierrc                         # Prettier設定
 ├── package.json
 └── tsconfig.json
 ```
 
-## 開発
-
-```bash
-# 開発モード（TypeScriptを直接実行）
-npm run dev
-
-# ビルド
-npm run build
-
-# ビルド後に実行
-npm start
-
-# クリーン
-npm run clean
-```
-
-## トラブルシューティング
+## Troubleshooting
 
 ### APIキーエラー
 
@@ -262,10 +415,55 @@ npm run clean
 
 → `npm run dev info <template-name>` でテンプレートの詳細と必須パラメータを確認してください。
 
-## ライセンス
+### バリデーションエラー
+
+```
+❌ テンプレートのバリデーションエラー
+```
+
+→ YAMLテンプレートの構造を確認してください。すべての必須フィールドが正しく定義されているか確認してください。
+
+## Future Extensions
+
+このプロジェクトは今後、以下の機能拡張を予定しています：
+
+### 短期的な拡張
+- [ ] **追加テンプレート**: 契約書、議事録、報告書など
+- [ ] **多言語対応**: 英語・中国語などのビジネス文書生成
+- [ ] **PDFエクスポート**: Markdown → PDF変換機能
+- [ ] **インタラクティブモード**: 対話形式でのパラメータ入力
+- [ ] **テンプレートバリデータ**: カスタムテンプレートの検証ツール
+
+### 中期的な拡張
+- [ ] **Webインターフェース**: ブラウザベースのGUI
+- [ ] **テンプレートマーケットプレイス**: コミュニティテンプレートの共有
+- [ ] **バージョン管理**: 生成された文書の履歴管理
+- [ ] **複数LLM対応**: Claude、Geminiなど他のLLMへの対応
+- [ ] **プラグインシステム**: カスタム機能の追加を容易にする仕組み
+
+### 長期的な拡張
+- [ ] **AIアシスタント**: 文書作成のガイダンス機能
+- [ ] **データ分析**: 生成された文書の品質分析
+- [ ] **エンタープライズ機能**: チーム管理、権限管理、監査ログ
+- [ ] **統合**: Google Docs、Microsoft Word、Notion等との連携
+
+## Contributing
+
+プルリクエストを歓迎します。大きな変更の場合は、まずissueを開いて変更内容を議論してください。
+
+### 開発ワークフロー
+
+1. フォークしてブランチを作成
+2. 変更を実装
+3. テストを追加/更新
+4. `npm run lint:fix` と `npm run format` を実行
+5. `npm test` が全て通ることを確認
+6. プルリクエストを作成
+
+## License
 
 MIT
 
-## 貢献
+---
 
-プルリクエストを歓迎します。大きな変更の場合は、まずissueを開いて変更内容を議論してください。
+**Made with ❤️ for Japanese business professionals**

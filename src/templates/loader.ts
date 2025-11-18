@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as yaml from 'yaml';
-import { DocumentTemplate } from './types';
+import { DocumentTemplate, DocumentTemplateSchema } from './types';
 
 /**
  * テンプレートローダー
@@ -50,23 +50,13 @@ export class TemplateLoader {
    * テンプレートのバリデーション
    */
   private validateTemplate(template: DocumentTemplate): void {
-    if (!template.name) {
-      throw new Error('テンプレート名が必要です');
-    }
-    if (!template.purpose) {
-      throw new Error('目的が必要です');
-    }
-    if (!template.audience) {
-      throw new Error('想定読者が必要です');
-    }
-    if (!Array.isArray(template.required_sections) || template.required_sections.length === 0) {
-      throw new Error('必須セクションが必要です');
-    }
-    if (!template.tone) {
-      throw new Error('口調が必要です');
-    }
-    if (!Array.isArray(template.parameters)) {
-      throw new Error('パラメータ定義が必要です');
+    try {
+      DocumentTemplateSchema.parse(template);
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`テンプレートのバリデーションエラー: ${error.message}`);
+      }
+      throw error;
     }
   }
 }

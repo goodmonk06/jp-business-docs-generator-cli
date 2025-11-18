@@ -9,10 +9,7 @@ import { LLMClient } from './llm/client';
 
 const program = new Command();
 
-program
-  .name('bizdoc')
-  .description('日本語ビジネス文書生成CLI')
-  .version('1.0.0');
+program.name('bizdoc').description('日本語ビジネス文書生成CLI').version('1.0.0');
 
 /**
  * generate コマンド
@@ -71,11 +68,8 @@ program
       console.log(chalk.green('✓ 文書生成完了\n'));
 
       // 出力パスを決定
-      const outputPath = options.output || path.join(
-        process.cwd(),
-        'output',
-        `${templateName}_${Date.now()}.md`
-      );
+      const outputPath =
+        options.output || path.join(process.cwd(), 'output', `${templateName}_${Date.now()}.md`);
 
       // 出力ディレクトリを作成
       const outputDir = path.dirname(outputPath);
